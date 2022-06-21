@@ -1,0 +1,3 @@
+Travelled Distance (Brute Force) = 16.97056274847714
+Travelled Distance (Dynamic Programming)= 16.97056274847714
+Travelled Distance (Greedy)= 11.313708498984761

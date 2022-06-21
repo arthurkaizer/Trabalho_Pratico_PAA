@@ -26,7 +26,7 @@ def readFile():
     lines = file.readlines()
     return lines
 
-def travellingSalesmanProblem(graph, s, V):
+def bruteForce(graph, s, V):
     vertex = []
     for i in range(V):
         if i != s:
@@ -46,7 +46,7 @@ def travellingSalesmanProblem(graph, s, V):
 
 MAX = 999999
 
-def TSP(mask, pos, graph, dp,n, visited):
+def dynamicPrograming(mask, pos, graph, dp,n, visited):
 	if mask == visited:
 		return graph[pos][0]
 	if dp[mask][pos] != -1:
@@ -55,13 +55,13 @@ def TSP(mask, pos, graph, dp,n, visited):
 	ans = MAX 
 	for city in range(0, n):
 		if ((mask & (1 << city)) == 0):
-			new = graph[pos][city] + TSP(mask|(1<<city),city, graph, dp, n, visited)
+			new = graph[pos][city] + dynamicPrograming(mask|(1<<city),city, graph, dp, n, visited)
 			ans = min(ans, new)
 	
 	dp[mask][pos]=ans
 	return dp[mask][pos]
 
-def findMinRoute(tsp):
+def greedy(tsp):
     sum = 0
     counter = 0
     i = 0
@@ -93,24 +93,27 @@ def findMinRoute(tsp):
             route[counter] = j + 1 
         
     sum += mn 
-    print(sum)
+    return sum
+    
 
-
+resultados = list()
 lines = readFile()
-V = int(lines.pop(0))
+cityQuantity = int(lines.pop(0))
 graph = generateGraph(lines)
-s = 0
-print(travellingSalesmanProblem(graph, s, V))
+sourceCity = 0
+resultados.append(f'Travelled Distance (Brute Force) = {bruteForce(graph, sourceCity, cityQuantity)}\n')
 
-n = 4
-visited = (1 << n) - 1
+
+visited = (1 << cityQuantity) - 1
 r,c=16,4
 dp = [[0]*c]*r
-for i in range(0, (1<<n)):
-	for j in range(0, n):
+for i in range(0, (1<<cityQuantity)):
+	for j in range(0, cityQuantity):
 		dp[i][j] = -1
+resultados.append(f'Travelled Distance (Dynamic Programming)= {dynamicPrograming(1, 0,graph, dp, cityQuantity, visited)}\n')
+resultados.append(f'Travelled Distance (Greedy)= {greedy(graph)}\n')
 
-print(TSP(1, 0,graph, dp, n, visited))
+arquivo = open("output1.txt", "a")
+arquivo.writelines(resultados)
 
-findMinRoute(graph)
 
