@@ -6,6 +6,16 @@ from numpy import size
 global pathsTaken
 pathsTaken = ""
 
+
+def calcFactorial(fat):
+    output = 1
+    for i in range(1,fat+1):
+        output *= i
+    return output
+def calcRam(qtd):
+    return (2**qtd) /8/1024/1024
+
+
 def distanceCalculate(cityA, cityB):
     A = cityA.split()
     B = cityB.split()
@@ -128,14 +138,14 @@ def greedy(tsp):
 
 
 resultados = list()
-lines = generateInput(10)    # Definir quantidade de cidades
+lines = generateInput(256)    # Definir quantidade de cidades
 cityQuantity = int(lines.pop(0))
 graph = generateGraph(lines)
 sourceCity = 0
 if cityQuantity < 9:
     resultados.append(f'Travelled Distance (Brute Force) = {bruteForce(graph, sourceCity, cityQuantity)}\n')
 else:
-    resultados.append("Brute Force too slow to compute!\n")
+    resultados.append("Brute Force too slow to compute! It would take "+str(calcFactorial(cityQuantity))+" steps to complete.\n")
 
 # 29 cidades = 4gb de ram
 # 30 cidades = 8gb de ram
@@ -150,9 +160,8 @@ if cityQuantity < 31:
     resultados.append(
         f'Travelled Distance (Dynamic Programming)= {dynamicPrograming(1, 0, graph, dp, cityQuantity, visited)}\n')
 else:
-    resultados.append("Dynamic Programming too expensive to compute!\n")
+    resultados.append("Dynamic Programming too expensive to compute! It would need "+str(calcRam(cityQuantity))+" GB of ram to compute.\n")
 resultados.append(f'Travelled Distance (Greedy)= {greedy(graph)}\n')
-
 
 arquivo = open("output2.txt", "a")
 arquivo.truncate(0)
