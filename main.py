@@ -34,6 +34,7 @@ def bruteForce(graph, s, V):
     min_path = maxsize
     next_permutation=permutations(vertex)
     for i in next_permutation:
+        bolinha += 1
         current_pathweight = 0
         k = s
         for j in i:
@@ -113,7 +114,7 @@ for i in range(0, (1<<cityQuantity)):
 resultados.append(f'Travelled Distance (Dynamic Programming)= {dynamicPrograming(1, 0,graph, dp, cityQuantity, visited)}\n')
 resultados.append(f'Travelled Distance (Greedy)= {greedy(graph)}\n')
 
-arquivo = open("output1.txt", "a")
+arquivo = open("output2.txt", "a")
 arquivo.writelines(resultados)
 
 
